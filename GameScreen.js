@@ -1,5 +1,4 @@
 //creates a GameScreen object
-
 var GameScreen = {
     //the preload method runs first
     //it is where we load our assets
@@ -72,6 +71,13 @@ var GameScreen = {
             } 
         }
         
+        game.add.plugin(Fabrique.Plugins.InputField);
+        
+        this.input = game.add.inputField(500, 90);
+        
+        console.log(this.input.selectText);
+        
+        this.add.button(500, 120, 'logo', this.check, this)
         
     },
     
@@ -93,6 +99,11 @@ var GameScreen = {
             this.mc.body.velocity.y = 0;
         }
     
+    },
+    
+    check: function() {
+        console.log(this.input.value);
+        this.input.resetText();
     }
 
     
