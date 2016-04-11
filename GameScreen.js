@@ -1,3 +1,4 @@
+var answers = [];
 //creates a GameScreen object
 var GameScreen = {
     //the preload method runs first
@@ -31,11 +32,17 @@ var GameScreen = {
         
         //make it so the mc can't leave the screen
         this.mc.body.collideWorldBounds = true;
-        var style = { font: '50px Arial', fill:'black', align: 'center'};
         
+        game.add.plugin(Fabrique.Plugins.InputField); 
+        var style = { font: '50px Arial', fill:'black', align: 'center'};
+        var Board = [];
+        var Arr = [];
+        var answers = [];
         for (var i=0; i < 10; i++) {
+            Arr= [];
             var randomNum = 0;
             for (var j=0; j < 5; j++){
+                
                 //if this is the first OR the 3rd element in the row- if yes generate a number in a white squeer
                 if ((j===0)||(j===2)){
                     randomNum = Math.floor((Math.random() * 9)+1);
@@ -44,6 +51,7 @@ var GameScreen = {
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
                     game.add.text(25+j*100,25+i*50,randomNum, style);
+                    Arr.push(randomNum);
                 }
                 //if this the second generate "+" sign
                 else if(j===1){
@@ -61,24 +69,22 @@ var GameScreen = {
                 }
                 //if the 5th generate blanck 
                 else if (j===4){
-                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
-                    this.temp.scale.x = 0.05;
-                    this.temp.scale.y = 0.05;
-                
-                    
+//                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
+//                    this.temp.scale.x = 0.05;
+//                    this.temp.scale.y = 0.05;
+                    this.temp = game.add.inputField(20+j*100, 25+i*50, {placeHolder: 'test'});
+                    answers.push(this.temp);
                 }
-                
+               
             } 
-        }
+            Board.push(Arr);
+          
+        } 
+        console.log(answers);
+        this.add.button(375,550, 'logo', this.check, this)
+        ;
         
-        game.add.plugin(Fabrique.Plugins.InputField);
-        
-        this.input = game.add.inputField(500, 90);
-        
-        console.log(this.input.selectText);
-        
-        this.add.button(500, 120, 'logo', this.check, this)
-        
+            
     },
     
     //function that is called 60 times per second
@@ -100,10 +106,17 @@ var GameScreen = {
         }
     
     },
-    
+//    
     check: function() {
-        console.log(this.input.value);
-        this.input.resetText();
+//        if ((i===0)+(i===2)) = (i===4)
+//            this.check.log
+//         for (var i = 0; i < answers.length; i++) {
+//             console.log(answers[i].value);
+//         }
+        for(var i=0; i<10; i++){
+            console.log(this.input.value);
+        }
+        console.log(answers);
     }
 
     
