@@ -1,4 +1,5 @@
-var answers = [];
+var UserResult = [];
+var ExpectedResults = [];
 //creates a GameScreen object
 var GameScreen = {
     //the preload method runs first
@@ -36,10 +37,7 @@ var GameScreen = {
         game.add.plugin(Fabrique.Plugins.InputField); 
         var style = { font: '50px Arial', fill:'black', align: 'center'};
         var Board = [];
-        var Arr = [];
-        var answers = [];
         for (var i=0; i < 10; i++) {
-            Arr= [];
             var randomNum = 0;
             for (var j=0; j < 5; j++){
                 
@@ -51,7 +49,7 @@ var GameScreen = {
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
                     game.add.text(25+j*100,25+i*50,randomNum, style);
-                    Arr.push(randomNum);
+                    ExpectedResults.push(randomNum);
                 }
                 //if this the second generate "+" sign
                 else if(j===1){
@@ -73,14 +71,14 @@ var GameScreen = {
 //                    this.temp.scale.x = 0.05;
 //                    this.temp.scale.y = 0.05;
                     this.temp = game.add.inputField(20+j*100, 25+i*50, {placeHolder: 'test'});
-                    answers.push(this.temp);
+                    UserResult.push(this.temp);
                 }
                
             } 
-            Board.push(Arr);
+            Board.push(ExpectedResults);
           
         } 
-        console.log(answers);
+        console.log(UserResult);
         this.add.button(375,550, 'logo', this.check, this)
         ;
         
@@ -108,15 +106,23 @@ var GameScreen = {
     },
 //    
     check: function() {
-//        if ((i===0)+(i===2)) = (i===4)
-//            this.check.log
-//         for (var i = 0; i < answers.length; i++) {
-//             console.log(answers[i].value);
-//         }
-        for(var i=0; i<10; i++){
-            console.log(this.input.value);
+       if(parseInt(ExpectedResults[0]+ExpectedResults[1])===parseInt(UserResult[0].value)) {
+        //for (var i = 0; i < UserResult.length; i++) {
+             console.log("true");
+       }
+       //}
+        else {
+             console.log("false");
         }
-        console.log(answers);
+        
+//            this.check.log
+//         for (var i = 0; i < UserResult.length; i++) {
+//             console.log(UserResult[i].value);
+//         }
+//        for(var i=0; i<10; i++){
+//            console.log(this.input.value);
+//        }
+//        console.log(UserResult);
     }
 
     
