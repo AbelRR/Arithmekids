@@ -106,13 +106,20 @@ var GameScreen = {
     },
 //    
     check: function() {
-       if(parseInt(ExpectedResults[0]+ExpectedResults[1])===parseInt(UserResult[0].value)) {
-        //for (var i = 0; i < UserResult.length; i++) {
-             console.log("true");
-       }
-       //}
-        else {
-             console.log("false");
+        var leftIndex = function (idx) {
+            return idx*2; 
+        };
+        var rightIndex = function (idx) {
+            return idx*2+1;
+        };
+        for (var i = 0; i < UserResult.length; i++) {
+            console.log('BLAH: ' + parseInt(UserResult[0].value));
+            console.log('ExpLeft: ' +ExpectedResults[leftIndex(i)]);
+            if(ExpectedResults[leftIndex(i)]+ExpectedResults[rightIndex(i)] === parseInt(UserResult[i].value)) {
+                console.log(i+"true");
+            } else {
+                console.log(i+"false");
+            }
         }
         
 //            this.check.log
