@@ -8,7 +8,7 @@ for (var i = 0; i < 11; i++) {
 
 var correct = 0;
 //creates a GameScreen object
-var GameScreen = {
+var GameScreen2 = {
     //the preload method runs first
     //it is where we load our assets
     preload : function() {
@@ -157,3 +157,4 @@ var GameScreen = {
 //        }
 //        console.log(UserResult);
     }
+};

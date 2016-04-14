@@ -143,19 +143,14 @@ var GameScreen = {
         }
         
         if (correct >= 7) {
-            this.add.button(450,520, 'nextLevel', this.check, this);
+            this.add.button(450,520, 'nextLevel', this.nextLevel, this);
         }
         console.log(correct);
-        
-        
-//            this.check.log
-//         for (var i = 0; i < UserResult.length; i++) {
-//             console.log(UserResult[i].value);
-//         }
-//        for(var i=0; i<10; i++){
-//            console.log(this.input.value);
-//        }
-//        console.log(UserResult);
+
+    },
+    
+    nextLevel: function() {
+        this.state.start('GameScreen2');
     }
 
     

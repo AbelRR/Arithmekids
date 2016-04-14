@@ -6,5 +6,7 @@ game.state.add('TitleScreen', TitleScreen);
 
 game.state.add('GameScreen', GameScreen);
 
+game.state.add('GameScreen2', GameScreen2);
+
 //begins the game at the Titlescreen state
 game.state.start('TitleScreen');
