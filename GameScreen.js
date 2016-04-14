@@ -1,5 +1,12 @@
 var UserResult = [];
 var ExpectedResults = [];
+
+var temp = new Array(10);
+for (var i = 0; i < 11; i++) {
+  temp[i] = new Array(2);
+}
+
+var correct = 0;
 //creates a GameScreen object
 var GameScreen = {
     //the preload method runs first
@@ -8,6 +15,9 @@ var GameScreen = {
         //loads an image named 'logo'
         game.load.image('logo', '/assets/images/mission_bit_logo.png');
         game.load.image('square', '/assets/images/square-game.jpg');
+        game.load.image('correct', '/assets/images/greencorrect.png');
+        game.load.image('incorrect', '/assets/images/Red-Wrong.png');
+        game.load.image('nextLevel', '/assets/images/NextLevel.png');
     },
     
     //the create method is run after the preload method
@@ -70,7 +80,7 @@ var GameScreen = {
 //                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
 //                    this.temp.scale.x = 0.05;
 //                    this.temp.scale.y = 0.05;
-                    this.temp = game.add.inputField(20+j*100, 25+i*50, {placeHolder: 'test'});
+                    this.temp = game.add.inputField(20+j*100, 45+i*50, {placeHolder: 'test'});
                     UserResult.push(this.temp);
                 }
                
@@ -79,8 +89,14 @@ var GameScreen = {
           
         } 
         console.log(UserResult);
-        this.add.button(375,550, 'logo', this.check, this)
-        ;
+        this.add.button(375,550, 'logo', this.check, this);
+        
+        for (var i = 0; i < 11; i++){
+            temp[i][0] = game.add.image(580, 30+i*50, 'correct');
+            temp[i][0].visible = false;
+            temp[i][1] = game.add.image(580, 30+i*50, 'incorrect');
+            temp[i][1].visible = false;
+        }
         
             
     },
@@ -106,6 +122,7 @@ var GameScreen = {
     },
 //    
     check: function() {
+        correct = 0;
         var leftIndex = function (idx) {
             return idx*2; 
         };
@@ -113,14 +130,23 @@ var GameScreen = {
             return idx*2+1;
         };
         for (var i = 0; i < UserResult.length; i++) {
-            console.log('BLAH: ' + parseInt(UserResult[0].value));
-            console.log('ExpLeft: ' +ExpectedResults[leftIndex(i)]);
+            //console.log('BLAH: ' + parseInt(UserResult[0].value));
+            //console.log('ExpLeft: ' +ExpectedResults[leftIndex(i)]);
             if(ExpectedResults[leftIndex(i)]+ExpectedResults[rightIndex(i)] === parseInt(UserResult[i].value)) {
-                console.log(i+"true");
+                temp[i][0].visible = true;
+                temp[i][1].visible = false;
+                correct = correct +1;
             } else {
-                console.log(i+"false");
+                temp[i][1].visible = true;
+                temp[i][0].visible = false;
             }
         }
+        
+        if (correct >= 7) {
+            this.add.button(450,520, 'nextLevel', this.check, this);
+        }
+        console.log(correct);
+        
         
 //            this.check.log
 //         for (var i = 0; i < UserResult.length; i++) {
