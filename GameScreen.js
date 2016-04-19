@@ -22,7 +22,7 @@ for (var i = 0; i < 11; i++) {
   temp[i] = new Array(2);
 }
 
-var level = 0;
+var level = 3;
 
 
 var correct = 0;
@@ -175,9 +175,14 @@ var GameScreen = {
         // level here is equal to 0, because of this previous code
         // var level = 0;
         // how do we add 1 to level here so the level is increased?
-     level = level +1;
-     this.state.start('GameScreen');
+        if (level === 3) { 
+            this.state.start('GameScreen2')
+        } else {
+            level = level +1;
+            this.state.start('GameScreen');
+        }
     }
+    
 
     
 };

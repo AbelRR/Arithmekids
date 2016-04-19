@@ -6,10 +6,10 @@ var TitleScreen = {
     preload : function() {
         //loads an image named 'logo'
         game.load.image('logo', '/assets/images/mission_bit_logo.png');
-        //loads an image named 'start'
-        game.load.image('start', '/getting-start-button-just-engaged-390 2.jpg');
         //loads an image named 'MathBackground'
-        game.load.image('MathBackground', '/mathbackground.gif');
+        game.load.image('MathBackground', 'assets/images//mathbackground.gif');
+        //loads an image named 'MathBackground'
+        game.load.image('start', 'assets/images/Press-Start.jpg');
     },
     
     //the create method is run after the preload method
@@ -18,9 +18,8 @@ var TitleScreen = {
         //adds an image with image 'logo' at (290, 100)
         this.add.image(290, 100, 'logo');
         //adds a button with image 'start' at location (200, 180) that calls the method startGame when it is clicked on
-        this.add.button(200, 180, 'start', this.startGame, this);
+        this.add.button(50,1, 'start', this.startGame, this);
         //makes the background color of the whole screen periwinkle
-        game.stage.backgroundColor = '#CCCFFF';
     },
 
     //this is a method we created and named ourselves
