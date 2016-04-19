@@ -8,6 +8,8 @@ var TitleScreen = {
         game.load.image('logo', '/assets/images/mission_bit_logo.png');
         //loads an image named 'start'
         game.load.image('start', '/getting-start-button-just-engaged-390 2.jpg');
+        //loads an image named 'MathBackground'
+        game.load.image('MathBackground', '/mathbackground.gif');
     },
     
     //the create method is run after the preload method

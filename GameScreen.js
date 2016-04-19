@@ -1,3 +1,19 @@
+function add (left, right) {
+    return left + right;
+}
+
+function subtract (left, right) {
+    return left - right;
+}
+
+function multiply (left , right) {
+    return left * right;
+}
+
+function divide (left , right) {
+    return Math.round(left / right)
+}
+
 var UserResult = [];
 var ExpectedResults = [];
 
@@ -5,6 +21,9 @@ var temp = new Array(10);
 for (var i = 0; i < 11; i++) {
   temp[i] = new Array(2);
 }
+
+var level = 0;
+
 
 var correct = 0;
 //creates a GameScreen object
@@ -18,13 +37,14 @@ var GameScreen = {
         game.load.image('correct', '/assets/images/greencorrect.png');
         game.load.image('incorrect', '/assets/images/Red-Wrong.png');
         game.load.image('nextLevel', '/assets/images/NextLevel.png');
+        game.load.image('mathbackground', '/assets/images/mathbackground.gif');
     },
     
     //the create method is run after the preload method
     //it is where we set up the basics of the game, essentially what it will look like when we start the game
     create: function () {
-//makes the background color of the whole screen black
-        game.stage.backgroundColor = '#000000';
+//makes the background image of the whole screen to math background
+         this.add.image(0, 0 , 'mathbackground');
         
         //starts the physics system for the game
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -32,21 +52,21 @@ var GameScreen = {
         //creates a variable that handles the arrow keys
         this.cursor = game.input.keyboard.createCursorKeys();
         
-        //creates a sprite with the 'logo' image at (200, 400) and assigns it to a variable
-        this.mc = game.add.sprite(200, 400, 'logo');
-        
-        //enables the physics system for the mc
-        game.physics.arcade.enable(this.mc);
-        
-        //makes sure the mc can't be moved by other sprites
-        this.mc.body.immovable = true;
-        
-        //make it so the mc can't leave the screen
-        this.mc.body.collideWorldBounds = true;
-        
         game.add.plugin(Fabrique.Plugins.InputField); 
         var style = { font: '50px Arial', fill:'black', align: 'center'};
         var Board = [];
+        
+        var mathOperator; 
+        if (level === 0) {
+            mathOperator = '+'
+        } else if (level === 1) {
+            mathOperator = '-'
+        } else if (level === 2) {
+            mathOperator = '*'
+        } else if (level === 3) {
+            mathOperator = '/'
+        }
+        
         for (var i=0; i < 10; i++) {
             var randomNum = 0;
             for (var j=0; j < 5; j++){
@@ -66,7 +86,7 @@ var GameScreen = {
                     this.temp = this.add.image(20+j*100, 25+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(25+j*100,25+i*50,"+", style);
+                    game.add.text(25+j*100,25+i*50, mathOperator, style);
                 }
                 //if the 4th generate "=" sign
                 else if (j===3){
@@ -105,20 +125,6 @@ var GameScreen = {
     //where we put the logic of the game
     update: function() {
     
-        //if the right arrow is pressed, move to the right
-        if (this.cursor.right.isDown) {
-            this.mc.body.velocity.x = 350;
-        } else if (this.cursor.left.isDown) { //if the left arrow is pressed, move to the left
-            this.mc.body.velocity.x = -350;
-        } else if (this.cursor.up.isDown){ //if the up arrow is pressed, move upwards
-            this.mc.body.velocity.y = -350;
-        } else if (this.cursor.down.isDown) { //if the down arrow is pressed, move downwards
-            this.mc.body.velocity.y = 350;
-        } else { //if no arrow keys are being pressed, stop moving
-            this.mc.body.velocity.x = 0;
-            this.mc.body.velocity.y = 0;
-        }
-    
     },
 //    
     check: function() {
@@ -129,10 +135,26 @@ var GameScreen = {
         var rightIndex = function (idx) {
             return idx*2+1;
         };
+        
+        var scoringFunction;
+        if (level === 0) {
+            scoringFunction = add
+        } else if (level === 1) {
+            scoringFunction = subtract
+        } else if (level === 2) {
+            scoringFunction = multiply
+        } else if (level === 3) {
+            scoringFunction = divide
+        }
+        //????
         for (var i = 0; i < UserResult.length; i++) {
             //console.log('BLAH: ' + parseInt(UserResult[0].value));
             //console.log('ExpLeft: ' +ExpectedResults[leftIndex(i)]);
-            if(ExpectedResults[leftIndex(i)]+ExpectedResults[rightIndex(i)] === parseInt(UserResult[i].value)) {
+
+            var expected = scoringFunction(ExpectedResults[leftIndex(i)],
+                                           ExpectedResults[rightIndex(i)]) 
+            
+            if(expected === parseInt(UserResult[i].value)) {
                 temp[i][0].visible = true;
                 temp[i][1].visible = false;
                 correct = correct +1;
@@ -150,7 +172,11 @@ var GameScreen = {
     },
     
     nextLevel: function() {
-        this.state.start('GameScreen2');
+        // level here is equal to 0, because of this previous code
+        // var level = 0;
+        // how do we add 1 to level here so the level is increased?
+     level = level +1;
+     this.state.start('GameScreen');
     }
 
     
