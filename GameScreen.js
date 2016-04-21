@@ -14,37 +14,56 @@ function divide (left , right) {
     return Math.round(left / right)
 }
 
-var UserResult = [];
-var ExpectedResults = [];
+//var UserResult = [];
+//var ExpectedResults = [];
 
 var temp = new Array(10);
 for (var i = 0; i < 11; i++) {
   temp[i] = new Array(2);
+    
+function getTimeRemaining(endtime){
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor( (t/1000) % 60 );
+  return {
+    'seconds': seconds
+  };
+}
 }
 
-var level = 3;
-
-
+var level = 0;
 var correct = 0;
+var timer; 
+var timerText;
+var style = { font: '50px Arial', fill:'black', align: 'center'};
+
 //creates a GameScreen object
 var GameScreen = {
     //the preload method runs first
     //it is where we load our assets
     preload : function() {
         //loads an image named 'logo'
-        game.load.image('logo', '/assets/images/mission_bit_logo.png');
+        game.load.image('logo', '/assets/images/checkbutton.png');
         game.load.image('square', '/assets/images/square-game.jpg');
         game.load.image('correct', '/assets/images/greencorrect.png');
         game.load.image('incorrect', '/assets/images/Red-Wrong.png');
         game.load.image('nextLevel', '/assets/images/NextLevel.png');
         game.load.image('mathbackground', '/assets/images/mathbackground.gif');
+        game.load.image('confetti', '/assets/images/confetti.gif');
+        game.load.image('restartButton', '/assets/images/restart.png');
     },
     
     //the create method is run after the preload method
     //it is where we set up the basics of the game, essentially what it will look like when we start the game
     create: function () {
 //makes the background image of the whole screen to math background
-         this.add.image(0, 0 , 'mathbackground');
+         this.UserResult = [];
+        this.ExpectedResults = [];
+
+        timer = 8;
+        
+        game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
+        
+        this.add.image(0, 0 , 'mathbackground');
         
         //starts the physics system for the game
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -53,7 +72,6 @@ var GameScreen = {
         this.cursor = game.input.keyboard.createCursorKeys();
         
         game.add.plugin(Fabrique.Plugins.InputField); 
-        var style = { font: '50px Arial', fill:'black', align: 'center'};
         var Board = [];
         
         var mathOperator; 
@@ -67,7 +85,7 @@ var GameScreen = {
             mathOperator = '/'
         }
         
-        for (var i=0; i < 10; i++) {
+        for (var i=0; i < 5; i++) {
             var randomNum = 0;
             for (var j=0; j < 5; j++){
                 
@@ -75,56 +93,60 @@ var GameScreen = {
                 if ((j===0)||(j===2)){
                     randomNum = Math.floor((Math.random() * 9)+1);
                     console.log(randomNum);
-                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
+                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
+                    //this.temp = this.add.image(100+j*100, 25+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(25+j*100,25+i*50,randomNum, style);
-                    ExpectedResults.push(randomNum);
+                    game.add.text(105+j*100,100+i*50,randomNum, style);
+                    //game.add.text(105+j*100,25+i*50,randomNum, style);
+                    this.ExpectedResults.push(randomNum);
                 }
                 //if this the second generate "+" sign
                 else if(j===1){
-                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
+                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(25+j*100,25+i*50, mathOperator, style);
+                    game.add.text(105+j*100,100+i*50, mathOperator, style);
                 }
                 //if the 4th generate "=" sign
                 else if (j===3){
-                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
+                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(25+j*100,25+i*50,"=", style);   
+                    game.add.text(105+j*100,100+i*50,"=", style);   
                 }
                 //if the 5th generate blanck 
                 else if (j===4){
 //                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
 //                    this.temp.scale.x = 0.05;
 //                    this.temp.scale.y = 0.05;
-                    this.temp = game.add.inputField(20+j*100, 45+i*50, {placeHolder: 'test'});
-                    UserResult.push(this.temp);
+                    this.temp = game.add.inputField(100+j*100, 120+i*50, {placeHolder: 'test'});
+                    this.UserResult.push(this.temp);
                 }
                
             } 
-            Board.push(ExpectedResults);
+            Board.push(this.ExpectedResults);
           
         } 
-        console.log(UserResult);
-        this.add.button(375,550, 'logo', this.check, this);
+        console.log(this.UserResult);
+        this.add.button(300,400, 'logo', this.check, this);
         
-        for (var i = 0; i < 11; i++){
-            temp[i][0] = game.add.image(580, 30+i*50, 'correct');
+        for (var i = 0; i < 5; i++){
+            temp[i][0] = game.add.image(650, 25+i*70, 'correct');
             temp[i][0].visible = false;
-            temp[i][1] = game.add.image(580, 30+i*50, 'incorrect');
+            temp[i][1] = game.add.image(650, 70+i*65, 'incorrect');
             temp[i][1].visible = false;
         }
         
-            
+        timerText = game.add.text(game.world.width-420, 30, 'time: ', {fontSize: '40px', fill: '#ff0'});
     },
     
     //function that is called 60 times per second
     //where we put the logic of the game
     update: function() {
-    
+    //    timer++;
+    //    console.log();
+        console.log(this.UserResult.length);
     },
 //    
     check: function() {
@@ -147,14 +169,14 @@ var GameScreen = {
             scoringFunction = divide
         }
         //????
-        for (var i = 0; i < UserResult.length; i++) {
+        for (var i = 0; i < this.UserResult.length; i++) {
             //console.log('BLAH: ' + parseInt(UserResult[0].value));
             //console.log('ExpLeft: ' +ExpectedResults[leftIndex(i)]);
 
-            var expected = scoringFunction(ExpectedResults[leftIndex(i)],
-                                           ExpectedResults[rightIndex(i)]) 
+            var expected = scoringFunction(this.ExpectedResults[leftIndex(i)],
+                                           this.ExpectedResults[rightIndex(i)]) 
             
-            if(expected === parseInt(UserResult[i].value)) {
+            if(expected === parseInt(this.UserResult[i].value)) {
                 temp[i][0].visible = true;
                 temp[i][1].visible = false;
                 correct = correct +1;
@@ -164,8 +186,8 @@ var GameScreen = {
             }
         }
         
-        if (correct >= 7) {
-            this.add.button(450,520, 'nextLevel', this.nextLevel, this);
+        if (correct >= 3) {
+            this.add.button(500,400, 'nextLevel', this.nextLevel, this);
         }
         console.log(correct);
 
@@ -181,8 +203,28 @@ var GameScreen = {
             level = level +1;
             this.state.start('GameScreen');
         }
+    }, 
+    updateTime: function() {
+//        if (timer == 0) {
+            if (timer === 0) {
+                this.add.button(300,400, 'restartButton', this.resetting, this);
+            } else {
+                timer--;
+            }
+            timerText.setText('time:  ' + timer);
+
+//        }
+    },
+    
+    resetting: function() {
+        level = 0;
+        this.state.start('GameScreen');
     }
     
 
     
 };
+
+// 2.5(150secs) minutes to finish 20 problems(5 of four operations)
+// if 150s pass, then user chooses has to restart or end game. 
+// if finished succesfully within 150 seconds you win 

@@ -5,6 +5,7 @@ var GameScreen2 = {
     preload : function() {
         //load images
         game.load.image('logo', '/assets/images/mission_bit_logo.png');
+        game.load.image('confetti', '/assets/images/confetti.gif')
     },
     
     //the create method is run after the preload method
