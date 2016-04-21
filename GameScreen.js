@@ -30,7 +30,7 @@ function getTimeRemaining(endtime){
 }
 }
 
-var level = 0;
+var level = 3;
 var correct = 0;
 var timer; 
 var timerText;
@@ -59,7 +59,7 @@ var GameScreen = {
          this.UserResult = [];
         this.ExpectedResults = [];
 
-        timer = 8;
+        timer = 16;
         
         game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
         
@@ -87,40 +87,53 @@ var GameScreen = {
         
         for (var i=0; i < 5; i++) {
             var randomNum = 0;
+            var randomNumFive = 0;
             for (var j=0; j < 5; j++){
                 
                 //if this is the first OR the 3rd element in the row- if yes generate a number in a white squeer
                 if ((j===0)||(j===2)){
                     randomNum = Math.floor((Math.random() * 9)+1);
                     console.log(randomNum);
-                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
+                    this.temp = this.add.image(100+j*80, 100+i*50, 'square');
                     //this.temp = this.add.image(100+j*100, 25+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(105+j*100,100+i*50,randomNum, style);
+                    game.add.text(105+j*80,100+i*50,randomNum, style);
                     //game.add.text(105+j*100,25+i*50,randomNum, style);
                     this.ExpectedResults.push(randomNum);
                 }
+                //if ((j===0)||(j===2)){
+                  //  randomNum = Math.floor((Math.random() * 9)+1);
+                    //console.log(randomNum);
+                    //this.temp = this.add.image(100+j*100, 100+i*50, 'square');
+                    //this.temp = this.add.image(100+j*100, 25+i*50, 'square');
+                    //this.temp.scale.x = 0.05;
+                    //this.temp.scale.y = 0.05;
+                    //game.add.text(105+j*100,100+i*50,randomNum, style);
+                    //game.add.text(105+j*100,25+i*50,randomNum, style);
+                    //this.ExpectedResults.push(randomNum);
+                //}
+                
                 //if this the second generate "+" sign
                 else if(j===1){
-                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
+                    this.temp = this.add.image(100+j*80, 100+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(105+j*100,100+i*50, mathOperator, style);
+                    game.add.text(105+j*80,100+i*50, mathOperator, style);
                 }
                 //if the 4th generate "=" sign
                 else if (j===3){
-                    this.temp = this.add.image(100+j*100, 100+i*50, 'square');
+                    this.temp = this.add.image(100+j*80, 100+i*50, 'square');
                     this.temp.scale.x = 0.05;
                     this.temp.scale.y = 0.05;
-                    game.add.text(105+j*100,100+i*50,"=", style);   
+                    game.add.text(105+j*80,100+i*50,"=", style);   
                 }
                 //if the 5th generate blanck 
                 else if (j===4){
 //                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
 //                    this.temp.scale.x = 0.05;
 //                    this.temp.scale.y = 0.05;
-                    this.temp = game.add.inputField(100+j*100, 120+i*50, {placeHolder: 'test'});
+                    this.temp = game.add.inputField(100+j*80, 120+i*50, {placeHolder: 'test'});
                     this.UserResult.push(this.temp);
                 }
                
@@ -132,9 +145,9 @@ var GameScreen = {
         this.add.button(300,400, 'logo', this.check, this);
         
         for (var i = 0; i < 5; i++){
-            temp[i][0] = game.add.image(650, 25+i*70, 'correct');
+            temp[i][0] = game.add.image(600, 105+i*50, 'correct');
             temp[i][0].visible = false;
-            temp[i][1] = game.add.image(650, 70+i*65, 'incorrect');
+            temp[i][1] = game.add.image(600, 105+i*50, 'incorrect');
             temp[i][1].visible = false;
         }
         
@@ -186,7 +199,7 @@ var GameScreen = {
             }
         }
         
-        if (correct >= 3) {
+        if (correct >= 4) {
             this.add.button(500,400, 'nextLevel', this.nextLevel, this);
         }
         console.log(correct);
@@ -207,7 +220,7 @@ var GameScreen = {
     updateTime: function() {
 //        if (timer == 0) {
             if (timer === 0) {
-                this.add.button(300,400, 'restartButton', this.resetting, this);
+                this.add.button(130,400, 'restartButton', this.resetting, this);
             } else {
                 timer--;
             }

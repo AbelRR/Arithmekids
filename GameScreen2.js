@@ -6,13 +6,17 @@ var GameScreen2 = {
         //load images
         game.load.image('logo', '/assets/images/mission_bit_logo.png');
         game.load.image('confetti', '/assets/images/confetti.gif')
+        game.load.image('restartButton', '/assets/images/restart.png');
+        game.load.image('winner', '/assets/images/Winner.jpg');
     },
     
     //the create method is run after the preload method
     //it is where we set up the basics of the game, essentially what it will look like when we start the game
     create: function () {
         
-        this.add.button(375,550, 'logo', this.restartGame, this);
+       this.add.image(150, 100 , 'winner'); 
+        
+        this.add.button(210,500, 'restartButton', this.restartGame, this);
         //add a button, when clicked will call "restart game"
         
         
