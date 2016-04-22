@@ -30,7 +30,7 @@ function getTimeRemaining(endtime){
 }
 }
 
-var level = 3;
+var level = 0;
 var correct = 0;
 var timer; 
 var timerText;
@@ -133,7 +133,7 @@ var GameScreen = {
 //                    this.temp = this.add.image(20+j*100, 25+i*50, 'square');
 //                    this.temp.scale.x = 0.05;
 //                    this.temp.scale.y = 0.05;
-                    this.temp = game.add.inputField(100+j*80, 120+i*50, {placeHolder: 'test'});
+                    this.temp = game.add.inputField(100+j*80, 120+i*50, {placeHolder: ''});
                     this.UserResult.push(this.temp);
                 }
                
