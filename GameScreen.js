@@ -59,7 +59,7 @@ var GameScreen = {
          this.UserResult = [];
         this.ExpectedResults = [];
 
-        timer = 16;
+        timer = 20;
         
         game.time.events.loop(Phaser.Timer.SECOND, this.updateTime, this);
         
@@ -210,7 +210,7 @@ var GameScreen = {
         // level here is equal to 0, because of this previous code
         // var level = 0;
         // how do we add 1 to level here so the level is increased?
-        if (level === 3) { 
+        if (level === 2) { 
             this.state.start('GameScreen2')
         } else {
             level = level +1;
